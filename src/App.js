@@ -43,8 +43,12 @@ const App = () => {
       <button onClick={uploadFile} disabled={!file}>
         Upload
       </button>
-      {cid &&
-        `Congratulations, you file has been uploaded and you can download the files from ${cid}`}
+      {cid && (
+        <span>
+          Congratulations, you file has been uploaded and you can download the
+          files from <a href={cid}>{cid}</a>
+        </span>
+      )}
     </div>
   );
 };
