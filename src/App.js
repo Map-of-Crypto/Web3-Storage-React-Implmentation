@@ -2,7 +2,8 @@ import { Web3Storage } from "web3.storage";
 import { useState } from "react";
 
 const App = () => {
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState([]);
+  const [cid, setCid] = useState("");
 
   const uploadFile = async () => {
     const storage = new Web3Storage({ token: process.env.REACT_APP_secret });
@@ -16,7 +17,8 @@ const App = () => {
         console.log(`> 🛰 sent ${bytes.toLocaleString()} bytes to web3.storage`),
     });
     console.log(`> ✅ web3.storage now hosting ${cid}`);
-    console.log(`https://dweb.link/ipfs/${cid}`);
+
+    setCid(`https://dweb.link/ipfs/${cid}`);
 
     console.log("> 📡 fetching the list of all unique uploads on this account");
     let totalBytes = 0;
@@ -33,10 +35,16 @@ const App = () => {
   return (
     <div>
       <h1>Web3 Storage</h1>
-      <input type="file" onChange={(event) => setFile(event.target.value)} />
+      <input
+        type="file"
+        onChange={(event) => setFile(event.target.files)}
+        multiple
+      />
       <button onClick={uploadFile} disabled={!file}>
         Upload
       </button>
+      {cid &&
+        `Congratulations, you file has been uploaded and you can download the files from ${cid}`}
     </div>
   );
 };
